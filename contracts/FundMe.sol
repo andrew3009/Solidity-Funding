@@ -23,7 +23,7 @@ contract FundMe {
 	mapping(address => uint256) private s_addressToAmountFunded;
 	address[] private s_funders;
 	AggregatorV3Interface private s_priceFeed;
-	uint256 public constant MIN_USD = 50 * 10**18;
+	uint256 public constant MINIMUM_USD = 50;
 	address private immutable i_owner;
 
 	modifier onlyOwner() {
@@ -58,7 +58,7 @@ contract FundMe {
 	/// @dev Implements price feeds as our library
 	function fund() public payable {
 		require(
-			msg.value.getConversionRate(s_priceFeed) >= MIN_USD,
+			msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD,
 			'You need to send more ETH!'
 		);
 		s_addressToAmountFunded[msg.sender] += msg.value;
